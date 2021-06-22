@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="DataBank:jar">
+    <output-path>$PROJECT_DIR$/../../server/spigotserver_8/plugins</output-path>
+    <root id="archive" name="DataBank.jar">
+      <element id="module-output" name="DataBank" />
+      <element id="extracted-dir" path="$USER_HOME$/Downloads/mongo-java-driver-2.13.1.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
