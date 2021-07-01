@@ -1,6 +1,7 @@
 package me.zach.databank.saver;
 
 import me.zach.databank.DB;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -8,11 +9,12 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.UUID;
 
 public class SaveManager implements Listener {
-    private static final HashMap<UUID,PlayerData> data = new HashMap<>();
+    public static final HashMap<UUID,PlayerData> data = new HashMap<>();
 
 
     public static void load(Player player){
@@ -22,7 +24,8 @@ public class SaveManager implements Listener {
     public static void load(UUID uuid){
         if(!data.containsKey(uuid)) {
             System.out.println("loading...");
-            data.put(uuid, new PlayerData(uuid));
+            PlayerData dat = new PlayerData(uuid);
+            data.put(uuid, dat);
             System.out.println("loaded");
         }
     }
@@ -51,6 +54,7 @@ public class SaveManager implements Listener {
         set(player,Key.CORRUPTER_XPR,info.corXPR);
         set(player,Key.CORRUPTER_XP,info.corXP);
         set(player,Key.ARTIFACT_DATA,info.ad.getData());
+        Bukkit.broadcastMessage("adata: " + Arrays.deepToString(info.ad.getData()));
         data.remove(player);
         System.out.println("finished dump");
     }

@@ -305,6 +305,7 @@ public class PlayerData {
     }
 
     private int getInt(String key, int def){
+        System.out.println("getting (int) uuid " + uuid + ", key=" + key + ", obj=" + DB.PLAYER_DATA.getInt(this.uuid,key) + ", default=" + def);
         return DB.PLAYER_DATA.getInt(uuid,key,def);
     }
 

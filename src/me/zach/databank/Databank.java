@@ -81,7 +81,6 @@ public class Databank {
 
     public String getString(UUID uuid, String key){
         Object found = get(uuid,key);
-        System.out.println("s: " + found);
         return found instanceof String ? (String) found : "";
     }
 
