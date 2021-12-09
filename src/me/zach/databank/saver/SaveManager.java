@@ -1,6 +1,7 @@
 package me.zach.databank.saver;
 
-import me.zach.databank.DB;
+import me.zach.databank.DBCore;
+import me.zach.databank.Databank;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -9,92 +10,78 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.UUID;
+import java.util.logging.Level;
 
 public class SaveManager implements Listener {
-    public static final HashMap<UUID,PlayerData> data = new HashMap<>();
-
-
-    public static void load(Player player){
+    private final Databank databank;
+    public final HashMap<UUID, PlayerData> data = new HashMap<>();
+    public void load(Player player){
         load(player.getUniqueId());
     }
-
-    public static void load(UUID uuid){
-        if(!data.containsKey(uuid)) {
-            System.out.println("loading...");
-            PlayerData dat = new PlayerData(uuid);
-            data.put(uuid, dat);
-            System.out.println("loaded");
+    public SaveManager(){
+        databank = new Databank(DBCore.DATABASE, DBCore.COLLECTION);
+        try{
+            UUID uuid = UUID.randomUUID();
+            PlayerData data = new PlayerData(uuid);
+            databank.set(data);
+            PlayerData retrieved = databank.findFromId(Databank.uuidFilter(uuid));
+            boolean matches = data.equals(retrieved);
+            databank.remove(uuid);
+            if(matches) Bukkit.getLogger().info("Player data test success!");
+            else throw new IllegalStateException("Player data saved and player data retrieved not equal! UUID: " + uuid);
+        }catch(Exception ex){
+            Bukkit.getLogger().log(Level.SEVERE, "***PLAYER DATA STORAGE/ACCESS TEST FAILED***\n---------------------------------------", ex);
+            Bukkit.shutdown();
         }
     }
 
-    public static void dump(UUID player){
-        System.out.println("dumping " + player);
-        PlayerData info = getData(player);
-        set(player,Key.GEMS,info.gems);
-        set(player,Key.SOULS,info.souls);
+    public void load(UUID uuid){
+        if(!data.containsKey(uuid)) {
+            System.out.println("loading data for uuid " + uuid);
+            PlayerData dat = databank.findFromId(Databank.uuidFilter(uuid));
+            if(dat == null) dat = new PlayerData(uuid);
+            data.put(uuid, dat);
+        }
+    }
 
-        set(player,Key.SELECTED_CLASS,info.currentClass);
-
-        set(player,Key.TANK_LVL,info.tankL);
-        set(player,Key.TANK_XP,info.tankXP);
-        set(player,Key.TANK_XPR,info.tankXPR);
-
-        set(player,Key.SCOUT_LVL,info.scoutL);
-        set(player,Key.SCOUT_XP,info.scoutXP);
-        set(player,Key.SCOUT_XPR,info.scoutXPR);
-
-        set(player,Key.WIZARD_LVL,info.wizardL);
-        set(player,Key.WIZARD_XPR,info.wizardXPR);
-        set(player,Key.WIZARD_XP,info.wizardXP);
-
-        set(player,Key.CORRUPTER_LVL,info.corL);
-        set(player,Key.CORRUPTER_XPR,info.corXPR);
-        set(player,Key.CORRUPTER_XP,info.corXP);
-        set(player,Key.ARTIFACT_DATA,info.ad.getData());
-        Bukkit.broadcastMessage("adata: " + Arrays.deepToString(info.ad.getData()));
-        data.remove(player);
+    public void dump(UUID uuid){
+        System.out.println("dumping " + uuid);
+        databank.set(data.get(uuid));
         System.out.println("finished dump");
     }
 
     @EventHandler(priority = EventPriority.HIGH)
-    public static void onJoin(PlayerJoinEvent event){
-        System.out.println("loading " + event.getPlayer());
+    public void onJoin(PlayerJoinEvent event){
+        System.out.println("loading " + event.getPlayer().getUniqueId());
         load(event.getPlayer().getUniqueId());
     }
 
     @EventHandler(priority = EventPriority.HIGH)
-    public static void onLeave(PlayerQuitEvent event){
+    public void onLeave(PlayerQuitEvent event){
         dump(event.getPlayer().getUniqueId());
     }
 
-
-
-    public static void onDisable(){
-        dumpAll();
-    }
-
-    public static void dumpAll(){
-        for(UUID ids : data.keySet()){
-            dump(ids);
-        }
-    }
-
-    private static void set(UUID uuid,String key,Object val){
-        DB.PLAYER_DATA.set(uuid,key,val);
-        System.out.println("setting uuid " + uuid + ", key=" + key + ", obj=" + val);
-    }
-
-
-    public static PlayerData getData(Player player){
+    public PlayerData getData(Player player){
         return getData(player.getUniqueId());
     }
 
-    public static PlayerData getData(UUID uuid){
-        load(uuid);
+    public PlayerData getData(UUID uuid){
         return data.get(uuid);
     }
 
+    public void onDisable(){
+        dumpAll();
+    }
+
+    public Databank getDatabank(){
+        return databank;
+    }
+
+    public void dumpAll(){
+        for(UUID id : data.keySet()){
+            dump(id);
+        }
+    }
 }

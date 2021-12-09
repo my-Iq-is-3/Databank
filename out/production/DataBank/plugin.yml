@@ -1,3 +1,6 @@
 name: Databank
 main: me.zach.databank.DBCore
 version: 1.0
+
+database: true
+website: https://fallenmc.xyz

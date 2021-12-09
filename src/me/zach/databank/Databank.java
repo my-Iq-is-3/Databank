@@ -1,88 +1,81 @@
 package me.zach.databank;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBCollection;
-import com.mongodb.DBObject;
-import com.mongodb.MongoClient;
-import com.mongodb.DB;
-import org.apache.commons.lang3.Validate;
+import com.mongodb.*;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Filters;
+import com.mongodb.client.result.InsertOneResult;
+import me.zach.databank.saver.Key;
+import me.zach.databank.saver.PlayerData;
 
-import java.net.UnknownHostException;
 import java.util.UUID;
 
+import org.bson.BsonDocument;
+import org.bson.UuidRepresentation;
+import org.bson.codecs.configuration.CodecRegistry;
+import org.bson.codecs.pojo.PojoCodecProvider;
+import org.bson.conversions.Bson;
+import org.bukkit.Bukkit;
+
+import java.util.Collections;
+
+import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
+import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
+
 public class Databank {
-
-    private DBCollection col;
-    private DB db;
+    private MongoCollection<PlayerData> collection;
+    private MongoDatabase db;
     private MongoClient client;
-    private String database;
-    private String collection;
 
 
-    public Databank(String database,String collection){
+    public Databank(String database, String collection){
         this("localhost",27017,database,collection);
     }
 
     public Databank(String ip,int port,String database, String collection){
-        this.database = database;
-        this.collection = collection;
-        //Connect to the specified ip and port
-        //Default is localhost, 27017
-        try {
-            client = new MongoClient(ip, port);
-        } catch (UnknownHostException e) {
-            //When you end up here, the server the db is running on could not be found!
-            System.out.println("Could not connect to database!");
-            e.printStackTrace();
-        }
-        db = client.getDB(database);
-        col = db.getCollection(collection);
+        CodecRegistry pojoCodecRegistry = fromProviders(PojoCodecProvider.builder().automatic(true).build());
+        CodecRegistry codecRegistry = fromRegistries(MongoClientSettings.getDefaultCodecRegistry(), pojoCodecRegistry);
+        this.client = MongoClients.create(MongoClientSettings.builder().
+                applyToClusterSettings(builder -> builder.hosts(Collections.singletonList(new ServerAddress(ip, port))))
+                .codecRegistry(codecRegistry)
+                .uuidRepresentation(UuidRepresentation.STANDARD)
+                .build());
+        this.db = client.getDatabase(database);
+        this.collection = db.getCollection(collection, PlayerData.class);
     }
 
-    public boolean set(UUID uuid, String key,  Object val){
-        if(val == null || uuid == null || key == null) return false;
-        DBObject result = new BasicDBObject("uuid", uuid.toString());
-        DBObject found = col.findOne(result);
-
-        if(found == null) {
-            result.put(key, val);
-            col.insert(result);
+    public void set(PlayerData val) throws NullPointerException, MongoException {
+        if(val == null) throw new NullPointerException("PlayerData to save cannot be null!");
+        UUID uuid = val.getUuid();
+        if(uuid == null) throw new NullPointerException("PlayerData uuid to save cannot be null!");
+        Bson filter = uuidFilter(uuid);
+        long count = collection.countDocuments(filter);
+        if(count > 0){
+            collection.findOneAndReplace(filter, val);
+            if(count > 1) Bukkit.getLogger().warning("ALERT: More than one player data entry registered under uuid " + uuid + "!");
         }else{
-            found.put(key,val);
-            col.update(result, found);
-        }
-        return true;
-    }
-
-
-
-    public Object get(UUID uuid, String key){
-
-        try {
-            DBObject r = new BasicDBObject("uuid", uuid.toString());
-            DBObject found = col.findOne(r);
-            return found.get(key);
-        } catch(NullPointerException ex){
-            set(uuid, key, null);
-            return null;
+            InsertOneResult response = collection.insertOne(val);
+            if(response.getInsertedId() == null){
+                throw new MongoException("Could not insert document " + uuid);
+            }
         }
     }
 
-    public int getInt(UUID uuid, String key){
-        Object found = get(uuid,key);
-        return found instanceof Integer ? (int) found  : 0;
+    public void remove(UUID uuid){
+        collection.dropIndex(uuidFilter(uuid));
     }
 
-    public int getInt(UUID uuid, String key, int def){
-        Object found = get(uuid,key);
-        return found instanceof Integer ? (int) found  : def;
+    public MongoCollection<PlayerData> getCollection(){
+        return collection;
     }
 
-
-    public String getString(UUID uuid, String key){
-        Object found = get(uuid,key);
-        return found instanceof String ? (String) found : "";
+    public static Bson uuidFilter(UUID uuid){
+        return Filters.eq(Key.UUID, uuid);
     }
 
-
+    public PlayerData findFromId(Bson bson){
+        return collection.find(bson).iterator().tryNext();
+    }
 }
