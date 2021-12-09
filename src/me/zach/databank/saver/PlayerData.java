@@ -1,77 +1,70 @@
 package me.zach.databank.saver;
 
-import com.mongodb.BasicDBList;
 import me.zach.artifacts.gui.inv.ArtifactData;
-import me.zach.databank.DB;
+import me.zach.databank.datastores.RisenData;
+import org.bson.codecs.pojo.annotations.BsonId;
+import org.bson.codecs.pojo.annotations.BsonProperty;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import java.util.Arrays;
+import java.util.Objects;
 import java.util.UUID;
 
 @SuppressWarnings("unused")
 public class PlayerData {
+    @BsonId
     UUID uuid;
-    int gems;
-    int souls;
-
-    String currentClass;
-    int tankL;
-    int tankXPR;
-    int tankXP;
-    int wizardL;
-    int wizardXPR;
-    int wizardXP;
-    int scoutL;
-    int scoutXPR;
-    int scoutXP;
-    int corL;
-    int corXPR;
-    int corXP;
-    ArtifactData ad;
-
-    public PlayerData(UUID uuid){
-        System.out.println("loading pdata");
-
-        this.uuid = uuid;
-        this.gems = getInt(Key.GEMS);
-
-        this.souls = getInt(Key.SOULS);
-        this.currentClass = getString(Key.SELECTED_CLASS);
-        this.tankL = getInt(Key.TANK_LVL,1);
-        this.wizardL = getInt(Key.WIZARD_LVL,1);
-        this.corL = getInt(Key.CORRUPTER_LVL,1);
-        this.scoutL = getInt(Key.SCOUT_LVL,1);
-
-        this.tankXPR = getInt(Key.TANK_XPR,100);
-        this.tankXP = getInt(Key.TANK_XP);
-
-        this.wizardXP = getInt(Key.WIZARD_XP);
-        this.wizardXPR = getInt(Key.WIZARD_XPR,100);
-
-        this.corXP = getInt(Key.CORRUPTER_XP);
-        this.corXPR = getInt(Key.CORRUPTER_XPR,100);
-
-        this.scoutXP = getInt(Key.SCOUT_XP);
-        this.scoutXPR = getInt(Key.SCOUT_XPR,100);
-        this.ad = new ArtifactData(uuid);
+    @BsonProperty(Key.GEMS)
+    int gems = 0;
+    @BsonProperty(Key.SOULS)
+    int souls = 0;
+    @BsonProperty(Key.SELECTED_CLASS)
+    String currentClass = Key.SCOUT;
+    @BsonProperty(Key.TANK_LVL)
+    int tankL = 0;
+    @BsonProperty(Key.TANK_XPR)
+    int tankXPR = 100;
+    @BsonProperty(Key.TANK_XP)
+    int tankXP = 0;
+    @BsonProperty(Key.WIZARD_LVL)
+    int wizardL = 0;
+    @BsonProperty(Key.WIZARD_XPR)
+    int wizardXPR = 100;
+    @BsonProperty(Key.WIZARD_XP)
+    int wizardXP = 0;
+    @BsonProperty(Key.SCOUT_LVL)
+    int scoutL = 0;
+    @BsonProperty(Key.SCOUT_XPR)
+    int scoutXPR = 100;
+    @BsonProperty(Key.SCOUT_XP)
+    int scoutXP = 0;
+    @BsonProperty(Key.CORRUPTER_LVL)
+    int corL = 0;
+    @BsonProperty(Key.CORRUPTER_XPR)
+    int corXPR = 100;
+    @BsonProperty(Key.RISEN_DATA)
+    RisenData risenData;
+    @BsonProperty(Key.CORRUPTER_XP)
+    int corXP = 0;
+    @BsonProperty(Key.ARTIFACT_DATA)
+    ArtifactData artifactData;
 
 
-
+    public ArtifactData getArtifactData() {
+        return artifactData;
     }
 
-
-    public ArtifactData getAD() {
-        return ad;
-    }
-
-    public void setAD(ArtifactData ad) {
-        this.ad = ad;
+    public void setArtifactData(ArtifactData artifactData) {
+        this.artifactData = artifactData;
     }
 
 
     public UUID getUuid() {
         return uuid;
+    }
+
+    public void setUuid(UUID uuid){
+        this.uuid = uuid;
     }
 
     public int getGems() {
@@ -194,6 +187,14 @@ public class PlayerData {
         this.corXP = corXP;
     }
 
+    public RisenData getRisenData(){
+        return risenData;
+    }
+
+    public void setRisenData(RisenData risenData){
+        this.risenData = risenData;
+    }
+
     public void setClassXP(String clazz, int xp){
 
         String lower = clazz.toLowerCase();
@@ -278,37 +279,24 @@ public class PlayerData {
         }
     }
 
-
-
-    public PlayerData(Player player){
-        this(player.getUniqueId());
-    }
-
-
-
     public Player getPlayer(){
         return Bukkit.getPlayer(uuid);
     }
 
-    private Object get(String key){
-        return DB.PLAYER_DATA.get(this.uuid,key);
+    public PlayerData(){
+
     }
 
-    private int getInt(String key){
-        System.out.println("getting (int) uuid " + uuid + ", key=" + key + ", obj=" + DB.PLAYER_DATA.getInt(this.uuid,key));
-        return DB.PLAYER_DATA.getInt(this.uuid,key);
+    public PlayerData(UUID uuid){
+        this.uuid = uuid;
+        setRisenData(new RisenData());
+        setArtifactData(new ArtifactData());
     }
 
-    private String getString(String key){
-        System.out.println("getting (string) uuid " + uuid + ", key=" + key + ", obj=" + DB.PLAYER_DATA.getString(this.uuid,key));
-        return DB.PLAYER_DATA.getString(this.uuid,key);
+    public boolean equals(Object o){
+        if(this == o) return true;
+        if(!(o instanceof PlayerData)) return false;
+        PlayerData that = (PlayerData) o;
+        return gems == that.gems && souls == that.souls && tankL == that.tankL && tankXPR == that.tankXPR && tankXP == that.tankXP && wizardL == that.wizardL && wizardXPR == that.wizardXPR && wizardXP == that.wizardXP && scoutL == that.scoutL && scoutXPR == that.scoutXPR && scoutXP == that.scoutXP && corL == that.corL && corXPR == that.corXPR && corXP == that.corXP && Objects.equals(uuid, that.uuid) && Objects.equals(currentClass, that.currentClass) && Objects.equals(risenData, that.risenData) && Objects.equals(artifactData, that.artifactData);
     }
-
-    private int getInt(String key, int def){
-        System.out.println("getting (int) uuid " + uuid + ", key=" + key + ", obj=" + DB.PLAYER_DATA.getInt(this.uuid,key) + ", default=" + def);
-        return DB.PLAYER_DATA.getInt(uuid,key,def);
-    }
-
-
-
 }

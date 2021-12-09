@@ -1,8 +1,10 @@
 package me.zach.databank.saver;
 /**
-  A class to store database keys. Do {@literal NOT} change any of these values unless you know EXACTLY what you are doing.
+  A class to store database keys. Do <strong>NOT</strong> change any of these values unless you know EXACTLY what you are doing.
  */
 public class Key{
+    public static final String UUID = "_id";
+
     public static final String SELECTED_CLASS = "selected_class";
     public static final String GEMS = "gems";
     public static final String SOULS = "souls";
@@ -29,7 +31,20 @@ public class Key{
     public static final String CORRUPTER = "corrupter";
     public static final String TANK = "tank";
 
+
     public static final String ARTIFACT_DATA = "artifact_data";
+
+    public static final String ARTIFACT_DATA_RAW = "adata_raw";
+
+    public static final String RISEN_DATA = "risen_data";
+
+    public static class RisenKey {
+        public static final String WINS_TO_NEXT_SLOT = "wins_to_next_slot";
+        public static final String ABILITY_SLOTS = "ability_slots";
+        public static final String SELECTED_ABILITIES = "selected_abilities";
+        public static final String BOSS_READY = "boss_is_ready";
+        public static final String EARNED_REWARDS = "earned_rewards";
+    }
 
     public static final int MAX_XP = 999999;
 }

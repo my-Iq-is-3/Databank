@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="JAVA_MODULE" version="4">
+  <component name="FacetManager">
+    <facet type="minecraft" name="Minecraft">
+      <configuration>
+        <autoDetectTypes>
+          <platformType>SPIGOT</platformType>
+        </autoDetectTypes>
+      </configuration>
+    </facet>
+  </component>
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
     <content url="file://$MODULE_DIR$">
@@ -10,36 +19,24 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../server/spigotserver_8/plugins/item-nbt-api-plugin-2.7.1.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../server/spigotserver_8/plugins/Artifacts.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
           <root url="jar://$USER_HOME$/Downloads/spigot-1.8.8-R0.1-SNAPSHOT-latest.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
           <root url="jar://$USER_HOME$/Downloads/spigot-1.8.8-R0.1-SNAPSHOT-latest.jar!/" />
+          <root url="jar://$USER_HOME$/Downloads/mongo-java-driver-3.9.1.jar!/" />
+          <root url="file://$USER_HOME$/Downloads/JAR Sources/NachoSpigot/NachoSpigot-API/src/main/java" />
+          <root url="file://$USER_HOME$/Downloads/JAR Sources/NachoSpigot/NachoSpigot-API/src/main/javadoc" />
+          <root url="file://$USER_HOME$/Downloads/JAR Sources/NachoSpigot/NachoSpigot-API/src/test/java" />
+          <root url="file://$USER_HOME$/Downloads/JAR Sources/NachoSpigot/NachoSpigot-Server/src/main/java" />
+          <root url="file://$USER_HOME$/Downloads/JAR Sources/NachoSpigot/NachoSpigot-Server/src/test/java" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/Downloads/mongo-java-driver-2.13.1.jar!/" />
+          <root url="jar://$USER_HOME$/Desktop/Server/plugins/item-nbt-api-plugin-2.3.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -48,11 +45,32 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../server/spigotserver_8/plugins/FallenMC.jar!/" />
+          <root url="jar://$USER_HOME$/Desktop/Server/plugins/Artifacts.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="file://$MODULE_DIR$/../Artifacts/src" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$USER_HOME$/Desktop/Server/plugins/MainPlugin.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$USER_HOME$/Desktop/Server/plugins/RisenBoss.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="library" name="mongodb.driver.sync" level="project" />
   </component>
 </module>

@@ -7,20 +7,27 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.UUID;
 
 public class DBCore extends JavaPlugin {
-    public static final String HOST = "127.0.0.1";
-    public static final String PORT = "3306";
-    public static final String USER = "root";
     public static final String PASSWORD = "";
-    public static final String DATABASE = "testdb";
-    public static final boolean USE_SSL = true;
-    public static DBCore instance;
+    public static final String DATABASE = "FallenData";
+    public static final String COLLECTION = "PlayerData";
+    private SaveManager saveManager;
+    private static DBCore instance;
+
+    public static DBCore getInstance(){
+        return instance;
+    }
+
     public void onEnable(){
         instance = this;
-        Bukkit.getPluginManager().registerEvents(new SaveManager(),this);
+        saveManager = new SaveManager();
+        Bukkit.getPluginManager().registerEvents(saveManager,this);
+    }
+
+    public SaveManager getSaveManager(){
+        return saveManager;
     }
 
     public void onDisable(){
-        SaveManager.onDisable();
+        saveManager.onDisable();
     }
-
 }
