@@ -22,19 +22,21 @@ public class SaveManager implements Listener {
     }
     public SaveManager(){
         databank = new Databank(DBCore.DATABASE, DBCore.COLLECTION);
-        try{
+        Bukkit.getScheduler().runTask(DBCore.getInstance(), () -> { //give plugins time to load (runs next tick)
             UUID uuid = UUID.randomUUID();
-            PlayerData data = new PlayerData(uuid);
-            databank.set(data);
-            PlayerData retrieved = databank.findFromId(Databank.uuidFilter(uuid));
-            boolean matches = data.equals(retrieved);
-            databank.remove(uuid);
-            if(matches) Bukkit.getLogger().info("Player data test success!");
-            else throw new IllegalStateException("Player data saved and player data retrieved not equal! UUID: " + uuid);
-        }catch(Exception ex){
-            Bukkit.getLogger().log(Level.SEVERE, "***PLAYER DATA STORAGE/ACCESS TEST FAILED***\n---------------------------------------", ex);
-            Bukkit.shutdown();
-        }
+            try{
+                PlayerData data = new PlayerData(uuid);
+                databank.set(data);
+                PlayerData retrieved = databank.findFromId(Databank.uuidFilter(uuid));
+                boolean matches = data.equals(retrieved);
+                databank.remove(uuid);
+                if(matches) Bukkit.getLogger().info("Player data test success!");
+                else throw new IllegalStateException("Player data saved and player data retrieved not equal!");
+            }catch(Exception ex){
+                Bukkit.getLogger().log(Level.SEVERE, "***PLAYER DATA STORAGE/ACCESS TEST FAILED***\n" + "UUID: " + uuid, ex);
+                Bukkit.shutdown();
+            }
+        });
     }
 
     public void load(UUID uuid){

@@ -1,11 +1,12 @@
 package me.zach.databank.saver;
 
 import me.zach.artifacts.gui.inv.ArtifactData;
-import me.zach.databank.datastores.RisenData;
 import org.bson.codecs.pojo.annotations.BsonId;
+import org.bson.codecs.pojo.annotations.BsonIgnore;
 import org.bson.codecs.pojo.annotations.BsonProperty;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import xyz.fallenmc.risenboss.main.data.RisenData;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -21,25 +22,25 @@ public class PlayerData {
     @BsonProperty(Key.SELECTED_CLASS)
     String currentClass = Key.SCOUT;
     @BsonProperty(Key.TANK_LVL)
-    int tankL = 0;
+    int tankL = 1;
     @BsonProperty(Key.TANK_XPR)
     int tankXPR = 100;
     @BsonProperty(Key.TANK_XP)
     int tankXP = 0;
     @BsonProperty(Key.WIZARD_LVL)
-    int wizardL = 0;
+    int wizardL = 1;
     @BsonProperty(Key.WIZARD_XPR)
     int wizardXPR = 100;
     @BsonProperty(Key.WIZARD_XP)
     int wizardXP = 0;
     @BsonProperty(Key.SCOUT_LVL)
-    int scoutL = 0;
+    int scoutL = 1;
     @BsonProperty(Key.SCOUT_XPR)
     int scoutXPR = 100;
     @BsonProperty(Key.SCOUT_XP)
     int scoutXP = 0;
     @BsonProperty(Key.CORRUPTER_LVL)
-    int corL = 0;
+    int corL = 1;
     @BsonProperty(Key.CORRUPTER_XPR)
     int corXPR = 100;
     @BsonProperty(Key.RISEN_DATA)
@@ -278,7 +279,7 @@ public class PlayerData {
             setTankL(lvl);
         }
     }
-
+    @BsonIgnore
     public Player getPlayer(){
         return Bukkit.getPlayer(uuid);
     }

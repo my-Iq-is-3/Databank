@@ -1,6 +1,8 @@
 package me.zach.databank;
 
-import com.mongodb.*;
+import com.mongodb.MongoClientSettings;
+import com.mongodb.MongoException;
+import com.mongodb.ServerAddress;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
@@ -9,10 +11,6 @@ import com.mongodb.client.model.Filters;
 import com.mongodb.client.result.InsertOneResult;
 import me.zach.databank.saver.Key;
 import me.zach.databank.saver.PlayerData;
-
-import java.util.UUID;
-
-import org.bson.BsonDocument;
 import org.bson.UuidRepresentation;
 import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.codecs.pojo.PojoCodecProvider;
@@ -20,6 +18,9 @@ import org.bson.conversions.Bson;
 import org.bukkit.Bukkit;
 
 import java.util.Collections;
+import java.util.Iterator;
+import java.util.UUID;
+import java.util.logging.Level;
 
 import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
 import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
@@ -54,17 +55,19 @@ public class Databank {
         long count = collection.countDocuments(filter);
         if(count > 0){
             collection.findOneAndReplace(filter, val);
+            Bukkit.getLogger().info("Updated document " + uuid);
             if(count > 1) Bukkit.getLogger().warning("ALERT: More than one player data entry registered under uuid " + uuid + "!");
         }else{
             InsertOneResult response = collection.insertOne(val);
             if(response.getInsertedId() == null){
                 throw new MongoException("Could not insert document " + uuid);
-            }
+            }else Bukkit.getLogger().info("Inserted document " + uuid);
         }
     }
 
     public void remove(UUID uuid){
-        collection.dropIndex(uuidFilter(uuid));
+        collection.deleteOne(uuidFilter(uuid));
+        Bukkit.getLogger().info("Removed document " + uuid);
     }
 
     public MongoCollection<PlayerData> getCollection(){
@@ -76,6 +79,7 @@ public class Databank {
     }
 
     public PlayerData findFromId(Bson bson){
-        return collection.find(bson).iterator().tryNext();
+        Iterator<PlayerData> iterator = collection.find(bson).iterator();
+        return iterator.hasNext() ? iterator.next() : null;
     }
 }
