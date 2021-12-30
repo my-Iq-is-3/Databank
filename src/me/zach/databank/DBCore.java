@@ -7,7 +7,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.UUID;
 
 public class DBCore extends JavaPlugin {
-    public static final String PASSWORD = "";
     public static final String DATABASE = "FallenData";
     public static final String COLLECTION = "PlayerData";
     private SaveManager saveManager;
