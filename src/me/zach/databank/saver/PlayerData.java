@@ -1,5 +1,7 @@
 package me.zach.databank.saver;
 
+import me.gabriel.Traits.data.TraitsData;
+import me.zach.DesertMC.GameMechanics.EXPMilesstones.MilestonesData;
 import me.zach.artifacts.gui.inv.ArtifactData;
 import org.bson.codecs.pojo.annotations.BsonId;
 import org.bson.codecs.pojo.annotations.BsonIgnore;
@@ -43,13 +45,16 @@ public class PlayerData {
     int corL = 1;
     @BsonProperty(Key.CORRUPTER_XPR)
     int corXPR = 100;
-    @BsonProperty(Key.RISEN_DATA)
-    RisenData risenData;
     @BsonProperty(Key.CORRUPTER_XP)
     int corXP = 0;
     @BsonProperty(Key.ARTIFACT_DATA)
-    ArtifactData artifactData;
-
+    ArtifactData artifactData = new ArtifactData();
+    @BsonProperty(Key.RISEN_DATA)
+    RisenData risenData = new RisenData();
+    @BsonProperty(Key.TRAITS_DATA)
+    TraitsData traitsData = new TraitsData();
+    @BsonProperty(Key.MILESTONES_DATA)
+    MilestonesData milestonesData = new MilestonesData();
 
     public ArtifactData getArtifactData() {
         return artifactData;
@@ -196,6 +201,14 @@ public class PlayerData {
         this.risenData = risenData;
     }
 
+    public TraitsData getTraitsData(){
+        return traitsData;
+    }
+
+    public void setTraitsData(TraitsData traitsData){
+        this.traitsData = traitsData;
+    }
+
     public void setClassXP(String clazz, int xp){
 
         String lower = clazz.toLowerCase();
@@ -288,10 +301,16 @@ public class PlayerData {
 
     }
 
+    public MilestonesData getMilestonesData(){
+        return milestonesData;
+    }
+
+    public void setMilestonesData(MilestonesData milestonesData){
+        this.milestonesData = milestonesData;
+    }
+
     public PlayerData(UUID uuid){
         this.uuid = uuid;
-        setRisenData(new RisenData());
-        setArtifactData(new ArtifactData());
     }
 
     public boolean equals(Object o){

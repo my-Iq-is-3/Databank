@@ -36,7 +36,11 @@ public class Key{
 
     public static final String ARTIFACT_DATA_RAW = "adata_raw";
 
+    public static final String TRAITS_DATA = "traits_data";
+
     public static final String RISEN_DATA = "risen_data";
+
+    public static final String MILESTONES_DATA = "milestones_data";
 
     public static class RisenKey {
         public static final String WINS_TO_NEXT_SLOT = "wins_to_next_slot";
