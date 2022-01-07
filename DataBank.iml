@@ -81,5 +81,16 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="mongodb.driver.sync" level="project" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$USER_HOME$/Desktop/Server/plugins/Traits.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$USER_HOME$/Desktop/Server/plugins/Traits.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
   </component>
 </module>
