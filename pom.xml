@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>xyz.fallenmc</groupId>
+    <artifactId>Databank</artifactId>
+    <version>1.0</version>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>mongodb-driver-sync</artifactId>
+            <version>4.4.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.CobbleSword.NachoSpigot</groupId>
+            <artifactId>api</artifactId>
+            <version>57e8295c68</version>
+        </dependency>
+        <dependency>
+            <groupId>xyz.fallenmc</groupId>
+            <artifactId>MainPlugin</artifactId>
+            <scope>system</scope>
+            <systemPath>${user.home}/Desktop/Server/plugins/MainPlugin.jar</systemPath>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>xyz.fallenmc</groupId>
+            <artifactId>Artifacts</artifactId>
+            <scope>system</scope>
+            <systemPath>${user.home}/Desktop/Server/plugins/Artifacts.jar</systemPath>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>xyz.fallenmc</groupId>
+            <artifactId>RisenBoss</artifactId>
+            <scope>system</scope>
+            <systemPath>${user.home}/Desktop/Server/plugins/RisenBoss.jar</systemPath>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>xyz.fallenmc</groupId>
+            <artifactId>Traits</artifactId>
+            <scope>system</scope>
+            <systemPath>${user.home}/Desktop/Server/plugins/Traits.jar</systemPath>
+            <version>1.0</version>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.2.4</version>
+                <configuration>
+                    <artifactSet>
+                        <includes>
+                            <include>*:mongo-driver-sync</include>
+                        </includes>
+                    </artifactSet>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <repositories>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
+
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+    </properties>
+    
+</project>
