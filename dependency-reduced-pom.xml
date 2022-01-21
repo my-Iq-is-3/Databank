@@ -20,7 +20,7 @@
         <configuration>
           <artifactSet>
             <includes>
-              <include>*:mongodb-driver-sync</include>
+              <include>org.mongodb:*</include>
             </includes>
           </artifactSet>
         </configuration>
