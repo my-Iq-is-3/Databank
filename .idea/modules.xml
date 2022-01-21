@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/DataBank.iml" filepath="$PROJECT_DIR$/DataBank.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Databank.iml" filepath="$PROJECT_DIR$/Databank.iml" />
     </modules>
   </component>
 </project>

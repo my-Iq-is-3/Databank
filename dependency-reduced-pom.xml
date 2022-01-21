@@ -20,7 +20,7 @@
         <configuration>
           <artifactSet>
             <includes>
-              <include>*:mongo-driver-sync</include>
+              <include>*:mongodb-driver-sync</include>
             </includes>
           </artifactSet>
         </configuration>
@@ -34,12 +34,6 @@
     </repository>
   </repositories>
   <dependencies>
-    <dependency>
-      <groupId>org.mongodb</groupId>
-      <artifactId>mongodb-driver-sync</artifactId>
-      <version>4.4.1</version>
-      <scope>compile</scope>
-    </dependency>
     <dependency>
       <groupId>com.github.CobbleSword.NachoSpigot</groupId>
       <artifactId>api</artifactId>

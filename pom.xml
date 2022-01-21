@@ -57,7 +57,7 @@
                 <configuration>
                     <artifactSet>
                         <includes>
-                            <include>*:mongo-driver-sync</include>
+                            <include>*:mongodb-driver-sync</include>
                         </includes>
                     </artifactSet>
                 </configuration>
