@@ -1,7 +1,6 @@
 package me.zach.databank;
 
 import com.mongodb.MongoClientSettings;
-import com.mongodb.MongoException;
 import com.mongodb.ServerAddress;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
@@ -47,7 +46,7 @@ public class Databank {
         this.collection = db.getCollection(collection, PlayerData.class);
     }
 
-    public void set(PlayerData val) throws NullPointerException, MongoException {
+    public void set(PlayerData val) throws NullPointerException, IllegalStateException {
         if(val == null) throw new NullPointerException("PlayerData to save cannot be null!");
         UUID uuid = val.getUuid();
         if(uuid == null) throw new NullPointerException("PlayerData uuid to save cannot be null!");
@@ -60,7 +59,7 @@ public class Databank {
         }else{
             InsertOneResult response = collection.insertOne(val);
             if(response.getInsertedId() == null){
-                throw new MongoException("Could not insert document " + uuid);
+                throw new IllegalStateException("Could not insert document " + uuid);
             }else Bukkit.getLogger().info("Inserted document " + uuid);
         }
     }
