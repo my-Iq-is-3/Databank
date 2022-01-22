@@ -17,9 +17,11 @@ import java.util.logging.Level;
 public class SaveManager implements Listener {
     private final Databank databank;
     public final HashMap<UUID, PlayerData> data = new HashMap<>();
+
     public void load(Player player){
         load(player.getUniqueId());
     }
+
     public SaveManager(){
         databank = new Databank(DBCore.DATABASE, DBCore.COLLECTION);
         Bukkit.getScheduler().runTask(DBCore.getInstance(), () -> { //give plugins time to load (runs next tick)
@@ -33,7 +35,7 @@ public class SaveManager implements Listener {
                 if(matches) Bukkit.getLogger().info("Player data test success!");
                 else throw new IllegalStateException("Player data saved and player data retrieved not equal!");
             }catch(Exception ex){
-                Bukkit.getLogger().log(Level.SEVERE, "***PLAYER DATA STORAGE/ACCESS TEST FAILED***\n" + "UUID: " + uuid, ex);
+                Bukkit.getLogger().log(Level.SEVERE, "***PLAYER DATA STORAGE/ACCESS TEST FAILED***\n" + "UUID: " + uuid + "\n", ex);
                 Bukkit.shutdown();
             }
         });
@@ -41,7 +43,7 @@ public class SaveManager implements Listener {
 
     public void load(UUID uuid){
         if(!data.containsKey(uuid)) {
-            System.out.println("loading data for uuid " + uuid);
+            Bukkit.getLogger().info("Getting data for player " + uuid + "...");
             PlayerData dat = databank.findFromId(Databank.uuidFilter(uuid));
             if(dat == null) dat = new PlayerData(uuid);
             data.put(uuid, dat);
