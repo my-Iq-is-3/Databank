@@ -57,7 +57,9 @@
                 <configuration>
                     <artifactSet>
                         <includes>
-                            <include>org.mongodb:*</include>
+                            <include>org.mongodb:mongodb-driver-sync</include>
+                            <include>org.mongodb:mongodb-driver-core</include>
+                            <include>org.mongodb:bson</include>
                         </includes>
                     </artifactSet>
                 </configuration>

@@ -1,5 +1,7 @@
 package me.zach.databank.saver;
 
+import me.zach.DesertMC.DesertMain;
+import me.zach.DesertMC.Utils.RankUtils.Rank;
 import me.zach.databank.DBCore;
 import me.zach.databank.Databank;
 import org.bukkit.Bukkit;
@@ -42,8 +44,9 @@ public class SaveManager implements Listener {
     }
 
     public void load(UUID uuid){
+        Bukkit.getLogger().info("Loading data for player " + uuid);
         if(!data.containsKey(uuid)) {
-            Bukkit.getLogger().info("Getting data for player " + uuid + "...");
+            Bukkit.getLogger().info("Fetching document " + uuid);
             PlayerData dat = databank.findFromId(Databank.uuidFilter(uuid));
             if(dat == null) dat = new PlayerData(uuid);
             data.put(uuid, dat);
@@ -51,14 +54,11 @@ public class SaveManager implements Listener {
     }
 
     public void dump(UUID uuid){
-        System.out.println("dumping " + uuid);
         databank.set(data.get(uuid));
-        System.out.println("finished dump");
     }
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onJoin(PlayerJoinEvent event){
-        System.out.println("loading " + event.getPlayer().getUniqueId());
         load(event.getPlayer().getUniqueId());
     }
 
