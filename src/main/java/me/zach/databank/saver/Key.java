@@ -1,4 +1,10 @@
 package me.zach.databank.saver;
+
+import me.zach.DesertMC.Prefix;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
   A class to store database keys. Do <strong>NOT</strong> change any of these values unless you know EXACTLY what you are doing.
  */
@@ -30,7 +36,9 @@ public class Key{
     public static final String SCOUT = "scout";
     public static final String CORRUPTER = "corrupter";
     public static final String TANK = "tank";
-
+    public static final String UNLOCKED_TITLES = "unlocked_titles";
+    public static final String SELECTED_TITLE = "selected_titles";
+    public static final String RANK = "rank";
 
     public static final String ARTIFACT_DATA = "artifact_data";
 

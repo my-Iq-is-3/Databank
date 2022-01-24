@@ -2,6 +2,8 @@ package me.zach.databank.saver;
 
 import me.gabriel.Traits.data.TraitsData;
 import me.zach.DesertMC.GameMechanics.EXPMilesstones.MilestonesData;
+import me.zach.DesertMC.Prefix;
+import me.zach.DesertMC.Utils.RankUtils.Rank;
 import me.zach.artifacts.gui.inv.ArtifactData;
 import org.bson.codecs.pojo.annotations.BsonId;
 import org.bson.codecs.pojo.annotations.BsonIgnore;
@@ -10,6 +12,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import xyz.fallenmc.risenboss.main.data.RisenData;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -55,6 +59,37 @@ public class PlayerData {
     TraitsData traitsData = new TraitsData();
     @BsonProperty(Key.MILESTONES_DATA)
     MilestonesData milestonesData = new MilestonesData();
+    @BsonProperty(Key.RANK)
+    Rank rank = null;
+
+    public Rank getRank(){
+        return rank;
+    }
+
+    public void setRank(Rank rank){
+        this.rank = rank;
+    }
+
+    public List<Prefix> getTitles(){
+        return titles;
+    }
+
+    public void setTitles(List<Prefix> titles){
+        this.titles = titles;
+    }
+
+    public Prefix getTitle(){
+        return title;
+    }
+
+    public void setTitle(Prefix title){
+        this.title = title;
+    }
+
+    @BsonProperty(Key.UNLOCKED_TITLES)
+    List<Prefix> titles = new ArrayList<>();
+    @BsonProperty(Key.SELECTED_TITLE)
+    Prefix title;
 
     public ArtifactData getArtifactData() {
         return artifactData;
