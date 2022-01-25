@@ -11,7 +11,9 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.plugin.RegisteredListener;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.UUID;
 import java.util.logging.Level;
@@ -31,7 +33,8 @@ public class SaveManager implements Listener {
             try{
                 PlayerData data = new PlayerData(uuid);
                 databank.set(data);
-                PlayerData retrieved = databank.findFromId(Databank.uuidFilter(uuid));
+                load(uuid);
+                PlayerData retrieved = getData(uuid);
                 boolean matches = data.equals(retrieved);
                 databank.remove(uuid);
                 if(matches) Bukkit.getLogger().info("Player data test success!");
@@ -57,12 +60,12 @@ public class SaveManager implements Listener {
         databank.set(data.get(uuid));
     }
 
-    @EventHandler(priority = EventPriority.HIGH)
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onJoin(PlayerJoinEvent event){
         load(event.getPlayer().getUniqueId());
     }
 
-    @EventHandler(priority = EventPriority.HIGH)
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onLeave(PlayerQuitEvent event){
         dump(event.getPlayer().getUniqueId());
     }
