@@ -50,6 +50,8 @@ public class Key{
 
     public static final String MILESTONES_DATA = "milestones_data";
 
+    public static final String COSMETIC_DATA = "cosmetic_data";
+
     public static class RisenKey {
         public static final String WINS_TO_NEXT_SLOT = "wins_to_next_slot";
         public static final String ABILITY_SLOTS = "ability_slots";
