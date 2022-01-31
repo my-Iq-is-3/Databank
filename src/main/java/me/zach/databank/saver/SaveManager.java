@@ -36,6 +36,7 @@ public class SaveManager implements Listener {
                 load(uuid);
                 PlayerData retrieved = getData(uuid);
                 boolean matches = data.equals(retrieved);
+                dump(uuid);
                 databank.remove(uuid);
                 if(matches) Bukkit.getLogger().info("Player data test success!");
                 else throw new IllegalStateException("Player data saved and player data retrieved not equal!");
@@ -58,6 +59,7 @@ public class SaveManager implements Listener {
 
     public void dump(UUID uuid){
         databank.set(data.get(uuid));
+        data.remove(uuid);
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
