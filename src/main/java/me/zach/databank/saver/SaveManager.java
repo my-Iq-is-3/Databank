@@ -67,7 +67,7 @@ public class SaveManager implements Listener {
         load(event.getPlayer().getUniqueId());
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onLeave(PlayerQuitEvent event){
         dump(event.getPlayer().getUniqueId());
     }
