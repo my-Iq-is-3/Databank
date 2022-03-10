@@ -80,6 +80,15 @@ public class SaveManager implements Listener {
         return data.get(uuid);
     }
 
+    /**
+     * Retrieves an instance of PlayerData directly from the database server. Player does not have to be online for this method to be called.
+     * @param uuid Player's uuid.
+     * @return PlayerData for that player. Is null if it doesn't actually exist.
+     */
+    public PlayerData getPlayerDataDirectly(UUID uuid){
+        return databank.findFromId(Databank.uuidFilter(uuid));
+    }
+
     public void onDisable(){
         dumpAll();
     }
