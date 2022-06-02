@@ -65,6 +65,16 @@ public class PlayerData {
     Set<Prefix> titles = new HashSet<>();
     @BsonProperty(Key.SELECTED_TITLE)
     Prefix title;
+    @BsonProperty("souls_spent")
+    int soulsSpent = 0;
+
+    public int getSoulsSpent(){
+        return soulsSpent;
+    }
+
+    public void setSoulsSpent(int soulsSpent){
+        this.soulsSpent = soulsSpent;
+    }
 
     public CosmeticData getCosmeticData(){
         return cosmeticData;
