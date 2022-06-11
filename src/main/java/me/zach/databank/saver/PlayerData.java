@@ -76,6 +76,12 @@ public class PlayerData {
         this.soulsSpent = soulsSpent;
     }
 
+    public void addSoulsSpent(int toAdd){
+        if(soulsSpent > 0 && soulsSpent + toAdd <= 0){
+            setSoulsSpent(Integer.MAX_VALUE);
+        }else setSoulsSpent(soulsSpent + toAdd);
+    }
+
     public CosmeticData getCosmeticData(){
         return cosmeticData;
     }
@@ -304,30 +310,32 @@ public class PlayerData {
     }
     public int getClassXPR(String clazz){
         String lower = clazz.toLowerCase();
-        if(lower.equals(Key.SCOUT)){
-            return getScoutXPR();
-        }else if(lower.equals(Key.CORRUPTER)){
-            return getCorXPR();
-        }else if(lower.equals(Key.WIZARD)){
-            return getWizardXPR();
-        }else if(lower.equals(Key.TANK)){
-            return getTankXPR();
-        }else{
-            return 0;
+        switch(lower){
+            case Key.SCOUT:
+                return getScoutXPR();
+            case Key.CORRUPTER:
+                return getCorXPR();
+            case Key.WIZARD:
+                return getWizardXPR();
+            case Key.TANK:
+                return getTankXPR();
+            default:
+                return 0;
         }
     }
     public int getClassLevel(String clazz){
         String lower = clazz.toLowerCase();
-        if(lower.equals(Key.SCOUT)){
-            return getScoutL();
-        }else if(lower.equals(Key.CORRUPTER)){
-            return getCorL();
-        }else if(lower.equals(Key.WIZARD)){
-            return getWizardL();
-        }else if(lower.equals(Key.TANK)){
-            return getTankL();
-        }else{
-            return 0;
+        switch(lower){
+            case Key.SCOUT:
+                return getScoutL();
+            case Key.CORRUPTER:
+                return getCorL();
+            case Key.WIZARD:
+                return getWizardL();
+            case Key.TANK:
+                return getTankL();
+            default:
+                return 0;
         }
     }
 
