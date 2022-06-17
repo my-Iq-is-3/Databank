@@ -20,7 +20,7 @@ public class PlayerData {
     @BsonId
     UUID uuid;
     @BsonProperty(Key.GEMS)
-    int gems = 0;
+    int gems = 100;
     @BsonProperty(Key.SOULS)
     int souls = 0;
     @BsonProperty(Key.SELECTED_CLASS)
