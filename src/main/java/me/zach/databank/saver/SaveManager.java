@@ -13,6 +13,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.RegisteredListener;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.UUID;
@@ -98,7 +99,7 @@ public class SaveManager implements Listener {
     }
 
     public void dumpAll(){
-        for(UUID id : data.keySet()){
+        for(UUID id : new ArrayList<>(data.keySet())){
             dump(id);
         }
     }
