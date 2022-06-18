@@ -67,6 +67,16 @@ public class PlayerData {
     Prefix title;
     @BsonProperty("souls_spent")
     int soulsSpent = 0;
+    @BsonProperty("money_away")
+    int gemsGottenWhileAway = 0;
+
+    public int getGemsGottenWhileAway(){
+        return gemsGottenWhileAway;
+    }
+
+    public void setGemsGottenWhileAway(int gemsGottenWhileAway){
+        this.gemsGottenWhileAway = gemsGottenWhileAway;
+    }
 
     public int getSoulsSpent(){
         return soulsSpent;
