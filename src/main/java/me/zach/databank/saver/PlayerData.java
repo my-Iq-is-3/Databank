@@ -69,6 +69,16 @@ public class PlayerData {
     int soulsSpent = 0;
     @BsonProperty("money_away")
     int gemsGottenWhileAway = 0;
+    @BsonProperty("muted")
+    boolean muted = false;
+
+    public boolean isMuted(){
+        return muted;
+    }
+
+    public void setMuted(boolean muted){
+        this.muted = muted;
+    }
 
     public int getGemsGottenWhileAway(){
         return gemsGottenWhileAway;
